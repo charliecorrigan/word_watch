@@ -1,6 +1,8 @@
 $ = require('jquery');
-const topWord = require('./javascript/topWord');
+const TopWord = require('./javascript/topWord');
 
 document.addEventListener("DOMContentLoaded", () => {
+  let topWord = new TopWord()
+  topWord.displayTopWord();
 })
 
