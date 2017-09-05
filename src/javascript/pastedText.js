@@ -9,12 +9,20 @@ class PastedText {
 
   listen(){
     this.listenForClick()
-    // this.listenForEnter()
+    this.listenForEnter()
   }
 
   listenForClick(){
     $('.text-submission button').on('click', ()=>{
       this.postAndDisplayWords();
+    })
+  }
+
+  listenForEnter(){
+    $('.text-submission textarea').keypress(key => {
+      if (key.keyCode == '13') {
+        this.postAndDisplayWords();
+      }
     })
   }
 
