@@ -8,10 +8,9 @@ class TopWord {
 
   displayTopWord(){
     this.fetchTopWord().then(data => {
-      for (property in data.word) {
-        console.log(property)
-    }
-      debugger;
+      let word = Object.keys(data.word)[0];
+      let frequency = data.word[word]
+      $('.top-word h3').append(word + " (" + frequency + ")");
     })
   }
 }
