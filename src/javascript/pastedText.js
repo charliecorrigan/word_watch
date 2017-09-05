@@ -8,11 +8,20 @@ class PastedText {
   }
 
   listen(){
+    this.listenForClick()
+    // this.listenForEnter()
+  }
+
+  listenForClick(){
     $('.text-submission button').on('click', ()=>{
-      this.words = $('.text-submission textarea').val().split(" ");
-      this.postWords(this.words)
-      this.displayWords()
+      this.postAndDisplayWords();
     })
+  }
+
+  postAndDisplayWords(){
+    this.words = $('.text-submission textarea').val().split(" ");
+    this.postWords(this.words)
+    this.displayWords()
   }
 
   postWords(words){
