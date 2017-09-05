@@ -1,10 +1,10 @@
 const baseUrl = 'https://wordwatch-api.herokuapp.com'
 
-let submission;
+let submission
 
 class PastedText {
   constructor(){
-    words: [];
+    words: []
   }
 
   listen(){
@@ -14,20 +14,20 @@ class PastedText {
 
   listenForClick(){
     $('.text-submission button').on('click', ()=>{
-      this.postAndDisplayWords();
+      this.postAndDisplayWords()
     })
   }
 
   listenForEnter(){
     $('.text-submission textarea').keypress(key => {
       if (key.keyCode == '13') {
-        this.postAndDisplayWords();
+        this.postAndDisplayWords()
       }
     })
   }
 
   postAndDisplayWords(){
-    this.words = $('.text-submission textarea').val().split(" ");
+    this.words = $('.text-submission textarea').val().split(" ")
     this.postWords(this.words)
     this.displayWords()
   }
@@ -39,12 +39,12 @@ class PastedText {
       .then(function(result){
         console.log(result)
       })
-      .catch(this.handleError);
+      .catch(this.handleError)
     })
   };
 
   handleError(error) {
-    console.error(error);
+    console.error(error)
   };
 
   displayWords() {
