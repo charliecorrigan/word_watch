@@ -34,7 +34,7 @@ class PastedText {
 
   postWords(words){
     words.forEach((singleWord) => {
-      let wordParams = { word: { value: singleWord } }
+      let wordParams = { word: { value: singleWord.toLowerCase() } }
       $.post(baseUrl + '/api/v1/words', wordParams)
       .then(function(result){
         console.log(result)
@@ -50,10 +50,10 @@ class PastedText {
   displayWords() {
     let wordFrequency = {}
     this.words.forEach(word => {
-      if (wordFrequency[word]) {
-        wordFrequency[word] += 1
+      if (wordFrequency[word.toLowerCase()]) {
+        wordFrequency[word.toLowerCase()] += 1
       } else {
-        wordFrequency[word] = 1
+        wordFrequency[word.toLowerCase()] = 1
       }
     })
     for (var key in wordFrequency) {
