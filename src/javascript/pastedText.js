@@ -48,6 +48,17 @@ class PastedText {
   };
 
   displayWords() {
+    let wordFrequency = this.countWords()
+    for (var key in wordFrequency) {
+      $('.word-count').append(this.styledHtml(key, wordFrequency))
+    }
+  }
+
+  styledHtml(key, wordFrequency){
+    return '<span style="font-size: ' + wordFrequency[key] + 'em">' + key + "\xa0" + '</span>'
+  }
+
+  countWords(){
     let wordFrequency = {}
     this.words.forEach(word => {
       let lowercaseWord = word.toLowerCase()
@@ -57,9 +68,7 @@ class PastedText {
         wordFrequency[lowercaseWord] = 1
       }
     })
-    for (var key in wordFrequency) {
-      $('.word-count').append('<span style="font-size: ' + wordFrequency[key] + 'em">' + key + "\xa0" + '</span>')
-    }
+  return wordFrequency
   }
 }
 
