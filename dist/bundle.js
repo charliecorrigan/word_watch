@@ -68,7 +68,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(1);
-module.exports = __webpack_require__(4);
+module.exports = __webpack_require__(5);
 
 
 /***/ }),
@@ -76,9 +76,14 @@ module.exports = __webpack_require__(4);
 /***/ (function(module, exports, __webpack_require__) {
 
 $ = __webpack_require__(2);
-const topWord = __webpack_require__(3);
+const TopWord = __webpack_require__(3);
+const PastedText = __webpack_require__(4);
 
 document.addEventListener("DOMContentLoaded", () => {
+  let topWord = new TopWord()
+  topWord.displayTopWord();
+  let pastedText = new PastedText()
+  pastedText.listen()
 })
 
 
@@ -10347,20 +10352,84 @@ return jQuery;
 /* 3 */
 /***/ (function(module, exports) {
 
-
+const baseUrl = 'https://wordwatch-api.herokuapp.com'
 class TopWord {
   constructor(){}
+
+  fetchTopWord(){
+    return $.getJSON(baseUrl + '/api/v1/top_word')
+  }
+
+  displayTopWord(){
+    this.fetchTopWord().then(data => {
+      let word = Object.keys(data.word)[0];
+      let frequency = data.word[word]
+      $('.top-word h3').append(word + " (" + frequency + ")");
+    })
+  }
 }
 module.exports = TopWord
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports) {
+
+const baseUrl = 'https://wordwatch-api.herokuapp.com'
+
+let submission;
+
+class PastedText {
+  constructor(){
+    words: [];
+  }
+
+  listen(){
+    $('.text-submission button').on('click', ()=>{
+      this.words = $('.text-submission textarea').val().split(" ");
+      this.postWords(this.words)
+      this.displayWords()
+    })
+  }
+
+  postWords(words){
+    words.forEach((singleWord) => {
+      let wordParams = { word: { value: singleWord } }
+      $.post(baseUrl + '/api/v1/words', wordParams)
+      .then(function(result){
+        console.log(result)
+      })
+      .catch(this.handleError);
+    })
+  };
+
+  handleError(error) {
+    console.error(error);
+  };
+
+  displayWords() {
+    let wordFrequency = {}
+    this.words.forEach(word => {
+      if (wordFrequency[word]) {
+        wordFrequency[word] += 1
+      } else {
+        wordFrequency[word] = 0
+      }
+    })
+    // debugger;
+    $('.word-count').append(wordFrequency)
+  }
+}
+
+module.exports = PastedText
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(5);
+var content = __webpack_require__(6);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -10368,7 +10437,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(7)(content, options);
+var update = __webpack_require__(8)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -10385,10 +10454,10 @@ if(false) {
 }
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(6)(undefined);
+exports = module.exports = __webpack_require__(7)(undefined);
 // imports
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700);", ""]);
 
@@ -10399,7 +10468,7 @@ exports.push([module.i, "/* http://meyerweb.com/eric/tools/css/reset/ \n   v2.0 
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 /*
@@ -10481,7 +10550,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -10527,7 +10596,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(8);
+var	fixUrls = __webpack_require__(9);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -10840,7 +10909,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports) {
 
 
